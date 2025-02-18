@@ -1,5 +1,38 @@
 local wezterm = require("wezterm")
 
+local function is_program_in_path(program)
+    local success, result = wezterm.run_child_process({ "which", program })
+    return success and result:find(program, 1, true) ~= nil
+end
+
+local function is_program_installed_windows(program)
+    local success, _ = wezterm.run_child_process({ "where", program })
+    return success
+end
+
+local function detect_preferred_shell()
+    if wezterm.target_triple:find("windows") == nil then
+        if is_program_in_path("zsh") then
+            return { "/bin/zsh", "-l" }
+        elseif is_program_in_path("bash") then
+            return { "/bin/bash", "-l" }
+        else
+            return nil
+        end
+    else
+        if is_program_installed_windows("pwsh.exe") then
+            return { "pwsh.exe", "-NoLogo" }
+        elseif is_program_installed_windows("bash.exe") then
+            return { "bash.exe", "-l" }
+        else
+            return { "cmd.exe" }
+        end
+    end
+end
+
+-- Configura el shell detectado o usa el valor por defecto
+local default_prog = detect_preferred_shell()
+
 return {
     ---default_domain = 'WSL:Ubuntu',
     ---#default_cwd = '~/home/roberto',
