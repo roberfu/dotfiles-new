@@ -30,12 +30,9 @@ local function detect_preferred_shell()
     end
 end
 
--- Configura el shell detectado o usa el valor por defecto
 local default_prog = detect_preferred_shell()
 
 return {
-    ---default_domain = 'WSL:Ubuntu',
-    ---#default_cwd = '~/home/roberto',
     default_prog = { "pwsh.exe" },
 
     initial_cols = 140,
