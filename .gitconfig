@@ -1,0 +1,9 @@
+[user]
+    name = Roberto Fuentes
+    email = 155397372+roberfu@users.noreply.github.com
+[credential]
+    helper = store
+[core]
+    editor = vim
+[init]
+    defaultBranch = main
